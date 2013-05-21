@@ -46,7 +46,7 @@ class Project < ActiveRecord::Base
   has_one :last_event, class_name: 'Event', order: 'events.created_at DESC', foreign_key: 'project_id'
   
   has_one :gitlab_ci_service, dependent: :destroy
-  has_one :hipchat_service, dependent: :destroy
+  has_one :hip_chat_service, dependent: :destroy
 
   has_one :forked_project_link, dependent: :destroy, foreign_key: "forked_to_project_id"
   has_one :forked_from_project, through: :forked_project_link
@@ -227,15 +227,15 @@ class Project < ActiveRecord::Base
   end
 
   def services
-    [gitlab_ci_service, hipchat_service].compact
+    [gitlab_ci_service, hip_chat_service].compact
   end
 
   def gitlab_ci?
     gitlab_ci_service && gitlab_ci_service.active
   end
 
-  def hipchat?
-    hipchat_service && hipchat_service.active
+  def hip_chat?
+    hip_chat_service && hip_chat_service.active
   end
 
   # For compatibility with old code
