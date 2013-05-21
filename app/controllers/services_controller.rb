@@ -6,20 +6,26 @@ class ServicesController < ProjectResourceController
 
   def index
     @gitlab_ci_service = @project.gitlab_ci_service
+    @hipchat_service = @project.hipchat_service
   end
 
   def edit
-    @service = @project.gitlab_ci_service
+    @gitlab_ci_service = @project.gitlab_ci_service
+    @hipchat_service =  @project.hipchat_service
 
     # Create if missing
-    @service = @project.create_gitlab_ci_service unless @service
+    @gitlab_ci_service = @project.create_gitlab_ci_service unless @gitlab_ci_service
+    @hipchat_service = @project.create_hipchat_service unless @hipchat_service
   end
 
   def update
-    @service = @project.gitlab_ci_service
+    @gitlab_ci_service = @project.gitlab_ci_service
+    @hipchat_service = @project.hipchat_service
 
-    if @service.update_attributes(params[:service])
+    if @gitlab_ci_service.update_attributes(params[:service])
       redirect_to edit_project_service_path(@project, :gitlab_ci)
+    elsif @hipchat_service.update_attributes(params[:service])
+      redirect_to edit_project_service_path(@project, :hipchat)
     else
       render 'edit'
     end
@@ -28,8 +34,11 @@ class ServicesController < ProjectResourceController
   def test
     data = GitPushService.new.sample_data(project, current_user)
 
-    @service = project.gitlab_ci_service
-    @service.execute(data)
+    @gitlab_ci_service = project.gitlab_ci_service
+    @gitlab_ci_service.execute(data)
+
+    @hipchat_service = project.hipchat_service
+    @hipchat_service.execute(data)
 
     redirect_to :back
   end
