@@ -10,6 +10,7 @@ class ProjectServices < Spinach::FeatureSteps
   Then 'I should see list of available services' do
     page.should have_content 'Services'
     page.should have_content 'Campfire'
+    page.should have_content 'HipChat'
     page.should have_content 'GitLab CI'
   end
 

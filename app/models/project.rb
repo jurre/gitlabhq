@@ -236,7 +236,7 @@ class Project < ActiveRecord::Base
   end
 
   def available_services_names
-    %w(gitlab_ci campfire)
+    %w(gitlab_ci campfire hip_chat)
   end
 
   def gitlab_ci?
